@@ -1,0 +1,162 @@
+header{
+    border-bottom: 3px solid rgb(221, 220, 220);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: rgb(255, 255, 255);
+}
+
+h1{
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    padding: 5px;
+    color: white;
+}
+
+.header-div{
+    width: 768px;
+    margin: 15px auto;
+    padding: 20px;
+    background-color: rgb(26, 152, 114);
+    border-radius: 20px;
+}
+
+.send-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0px 15px;
+}
+
+table{
+    width: 100%;
+    padding: 5%;
+    margin: 5px ;
+}
+
+th{
+    width: 60px;
+    vertical-align: middle;
+}
+
+.midashi{
+    font-size: 20px;
+        font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(249, 225, 42);
+}
+
+td{
+    width: auto;
+    padding: 6px 20px;
+}
+
+input{
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.8;
+    width: 90%;
+    border: 4px dashed white;
+    border-radius: 10px;
+    background-color: rgb(26, 152, 114);
+    color: white;
+    padding: 2px 8px;
+}
+
+textarea{
+    font-size: 24px;
+    line-height:1.0;
+    width: 90%;
+    height: 200px;
+    border: 4px dashed white;
+    border-radius: 10px;
+    background-color: rgb(26, 152, 114);
+    color: white;
+    padding: 8px;
+}
+
+#send{
+    width: 300px;
+    height: 80px;
+    background-color: rgb(248, 206, 56);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: 600;
+    border-radius: 30px;
+    margin: 0 auto 20px auto;
+    box-shadow: 2px 2px 2px 2px #aeacac;
+}
+
+#send:hover{
+    background-color: #aeacac;
+    color: white;
+    font-weight: 600;
+}
+
+.post{
+    background-color: rgb(26, 152, 114);
+    width: 480px;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 2px #aeacac;
+}
+
+.title{
+    padding: 3px;
+    border-bottom: 3px dashed white;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.content{
+    height: 150px;
+    font-size: 20px;
+    border: 3px solid rgb(145, 144, 144);
+    background-color: rgb(251, 251, 228);
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.buttons{
+    display: flex;
+    justify-content:end;
+    margin: 0 0 0 60%;
+}
+
+button{
+    width: 60px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: rgb(248, 206, 56);
+    border: 0;
+    padding: 8px;
+    border-radius: 20%;
+    margin: 0 2%;
+    box-shadow: 2px 2px 2px 2px #aeacac;
+}
+
+button:hover{
+    background-color: #aeacac;
+}
+
+#output{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#time{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: end;
+    color: white;
+    margin-bottom: 10px;
+}

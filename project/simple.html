@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>なんでも伝言板</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+
+        <div class="header-div">
+            <h1> ✏️ なんでも 伝言板 ✏️</h1>
+            <div class="send-box">
+                <table>
+                    <tr>
+                        <th><span class="midashi" >名前</span></th>
+                        <td><input type="text" id="uname"></td>
+                    </tr>
+                    <tr>
+                        <th><span class="midashi">内容</span></th>
+                        <td><textarea name="" id="text" cols="30" rows="10"></textarea></td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div id="send">投稿</div>
+
+        </div>
+    </header>
+
+    <!-- コンテンツ表示画面 -->
+
+    <div id="output"></div>
+
+
+
+
+
+
+
+    <!--/ コンテンツ表示画面 -->
+
+
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- JQuery -->
+
+
+    <!--** 以下Firebase **-->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        import { getDatabase, ref, push, set, update, onChildAdded, remove, onChildRemoved, onChildChanged }
+            from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.7.1/firebase-database.js";
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "fir-memo-46af7.firebaseapp.com",
+            projectId: "fir-memo-46af7",
+            storageBucket: "fir-memo-46af7.appspot.com",
+            messagingSenderId: "282276605763",
+            appId: "1:282276605763:web:8b50e57e43e9f405f609f6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        //データベースの参照
+        const db = getDatabase(app);
+        const dbRef = ref(db, "chat"); //db内に"chat"という領域を作成
+
+        $("#send").on("click", function () {
+            let now = new Date(); //現在の時間取得
+            let month = now.getMonth() + 1; //正しい月表示
+            let day = ("0" + now.getDate()).slice(-2); //２桁表示
+            let hour =  ("0" + now.getHours()).slice(-2);
+            let min =  ("0" + now.getMinutes()).slice(-2);
+            let sec =  ("0" + now.getSeconds()).slice(-2);
+
+
+            const msg = {
+                uname: $("#uname").val(),
+                text: $("#text").val(),
+                time: now.getFullYear() + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec 
+            };
+            const newPostRef = push(dbRef); //ユニークキー（自動の識別キーを生成）
+            set(newPostRef, msg);
+
+            document.getElementById('uname').value = ""; //入力したらクリア
+            document.getElementById('text').value = "";
+
+        });
+
+        onChildAdded(dbRef, function (data) { //子のデータが追加されたら起動（ページ読み込み時にも実行される）            
+            const msg = data.val();
+            const key = data.key; //削除・更新に必須
+
+            let h = '<div id="' + key + '" class="post">';
+            h += '<div class="title">名前：' + msg.uname + '</div>';
+            h += '<div contentEditable="true" id="' + key + '_update" class="content">' + msg.text + '</div>';
+            h += '<div id="time">投稿：'+ msg.time +'</div>'
+            h += '<div class="buttons">'
+            h += '<button class = "remove"  data-key="' + key + '">削除</button>';
+            h += '<button class = "update" data-key="' + key + '">更新</button>';
+            h += "</div>"
+            h += "</div>"
+            $("#output").prepend(h); // #output の最後に追加
+
+        });
+
+        //削除イベント
+        $('#output').on("click", ".remove", function () {
+            const key = $(this).attr("data-key");
+            console.log(key);
+            const remove_item = ref(db, "chat/" + key);
+            console.log(remove_item);
+            remove(remove_item); //firebaseデータ削除関数
+        });
+
+        //更新イベント
+        $("#output").on("click", ".update", function () {
+            const key = $(this).attr("data-key");
+            update(ref(db, "chat/" + key), {
+                text: $("#" + key + '_update').html()
+            });
+        });
+
+        //削除処理がFirebase側で実行されたらイベント発生
+        onChildRemoved(dbRef, (data) => {
+            $("#" + data.key).remove();
+        });
+
+        //更新処理がFirebase側で実行されたらイベント発生
+        onChildChanged(dbRef, (data) => {
+            $("#" + data.key + '_update').html(data.val().text);
+            $("#" + data.key + '_update');
+        });
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
